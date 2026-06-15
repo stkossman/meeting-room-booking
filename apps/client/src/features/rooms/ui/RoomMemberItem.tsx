@@ -21,7 +21,7 @@ export const RoomMemberItem = ({
 }: RoomMemberItemProps) => {
 	return (
 		<li className='flex flex-col gap-3 rounded-md border border-stone-200 bg-white/80 p-3 sm:flex-row sm:items-center sm:justify-between'>
-			<div className='min-w-0'>
+			<div className='min-w-0 flex-1'>
 				<div className='flex flex-wrap items-center gap-2'>
 					<p className='truncate text-sm font-semibold text-stone-950'>
 						{member.user.name}
@@ -49,7 +49,7 @@ export const RoomMemberItem = ({
 						<option value='ADMIN'>ADMIN</option>
 					</Select>
 					<Button
-						variant='ghost'
+						variant='danger'
 						disabled={isRemoving || isUpdating}
 						onClick={() => onRemove(member)}
 					>

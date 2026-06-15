@@ -36,6 +36,7 @@ export const RegisterForm = () => {
 		<form className='mt-6 grid gap-4' onSubmit={handleSubmit(onSubmit)}>
 			<Input
 				label='Name'
+				maxLength={255}
 				placeholder='Alex Morgan'
 				error={errors.name?.message}
 				{...register('name')}
@@ -43,6 +44,7 @@ export const RegisterForm = () => {
 			<Input
 				label='Email'
 				type='email'
+				maxLength={255}
 				placeholder='you@team.com'
 				error={errors.email?.message}
 				{...register('email')}
@@ -50,6 +52,7 @@ export const RegisterForm = () => {
 			<Input
 				label='Password'
 				type='password'
+				maxLength={255}
 				placeholder='At least 6 characters'
 				error={errors.password?.message}
 				{...register('password')}

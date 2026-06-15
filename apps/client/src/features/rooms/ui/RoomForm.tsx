@@ -58,12 +58,14 @@ export const RoomForm = ({
 		<form className='grid gap-4' onSubmit={handleSubmit(onSubmit)}>
 			<Input
 				label='Room name'
+				maxLength={120}
 				placeholder='Main meeting room'
 				error={errors.name?.message}
 				{...register('name')}
 			/>
 			<Textarea
 				label='Description'
+				maxLength={500}
 				placeholder='A quiet space for planning and team syncs'
 				error={errors.description?.message}
 				{...register('description')}

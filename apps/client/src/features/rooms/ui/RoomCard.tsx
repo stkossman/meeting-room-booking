@@ -46,7 +46,7 @@ export const RoomCard = ({
 							{room.role}
 						</span>
 					</div>
-					<p className='mt-2 line-clamp-2 text-sm leading-6 text-stone-600'>
+					<p className='mt-2 line-clamp-2 break-words text-sm leading-6 text-stone-600'>
 						{room.description || 'No description yet.'}
 					</p>
 				</div>
@@ -58,7 +58,7 @@ export const RoomCard = ({
 							Edit
 						</Button>
 						<Button
-							variant='ghost'
+							variant='danger'
 							disabled={isDeleting}
 							onClick={() => onDelete(room)}
 						>

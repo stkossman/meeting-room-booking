@@ -45,10 +45,10 @@ export const BookingCard = ({
 						<p className='text-base font-semibold text-stone-950'>
 							{formatTimeRange(booking)}
 						</p>
-						<p className='mt-2 text-sm leading-6 text-stone-600'>
+						<p className='mt-2 break-words text-sm leading-6 text-stone-600'>
 							{booking.description || 'No description.'}
 						</p>
-						<p className='mt-3 text-xs text-stone-500'>
+						<p className='mt-3 truncate text-xs text-stone-500'>
 							Created by {booking.createdBy.name}
 						</p>
 					</div>
@@ -76,7 +76,7 @@ export const BookingCard = ({
 							Edit
 						</Button>
 						<Button
-							variant='ghost'
+							variant='danger'
 							disabled={isCancelling}
 							onClick={() => onCancel(booking)}
 						>

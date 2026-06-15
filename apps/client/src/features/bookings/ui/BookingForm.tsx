@@ -105,6 +105,7 @@ export const BookingForm = ({
 		>
 			<Textarea
 				label='Description'
+				maxLength={500}
 				placeholder='Planning, interview, design review...'
 				error={errors.description?.message}
 				{...register('description')}

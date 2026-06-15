@@ -3,6 +3,7 @@ import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 import { Select } from '@/shared/ui/Select'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -13,11 +14,13 @@ const addRoomMemberSchema = z.object({
 
 type AddRoomMemberFormProps = {
 	isSubmitting?: boolean
+	resetSignal?: number
 	onSubmit: (values: AddRoomMemberValues) => void
 }
 
 export const AddRoomMemberForm = ({
 	isSubmitting = false,
+	resetSignal,
 	onSubmit,
 }: AddRoomMemberFormProps) => {
 	const {
@@ -33,12 +36,19 @@ export const AddRoomMemberForm = ({
 		},
 	})
 
-	const submit = (values: AddRoomMemberValues) => {
-		onSubmit(values)
+	useEffect(() => {
+		if (resetSignal === undefined) {
+			return
+		}
+
 		reset({
 			email: '',
-			role: values.role,
+			role: 'USER',
 		})
+	}, [reset, resetSignal])
+
+	const submit = (values: AddRoomMemberValues) => {
+		onSubmit(values)
 	}
 
 	return (
@@ -46,6 +56,7 @@ export const AddRoomMemberForm = ({
 			<Input
 				label='Email'
 				type='email'
+				maxLength={255}
 				placeholder='teammate@company.com'
 				error={errors.email?.message}
 				{...register('email')}

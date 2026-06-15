@@ -15,6 +15,7 @@ import type {
 } from '@/shared/types/room'
 import { Button } from '@/shared/ui/Button'
 import { EmptyState } from '@/shared/ui/EmptyState'
+import { useState } from 'react'
 
 type RoomMembersPanelProps = {
 	room: Room
@@ -26,9 +27,12 @@ export const RoomMembersPanel = ({ room }: RoomMembersPanelProps) => {
 	const addMemberMutation = useAddRoomMember(room.id)
 	const updateMemberMutation = useUpdateRoomMember(room.id)
 	const removeMemberMutation = useRemoveRoomMember(room.id)
+	const [addMemberResetSignal, setAddMemberResetSignal] = useState(0)
 
 	const handleAddMember = (values: AddRoomMemberValues) => {
-		addMemberMutation.mutate(values)
+		addMemberMutation.mutate(values, {
+			onSuccess: () => setAddMemberResetSignal((value) => value + 1),
+		})
 	}
 
 	const handleRoleChange = (member: RoomMember, role: RoomRole) => {
@@ -69,6 +73,7 @@ export const RoomMembersPanel = ({ room }: RoomMembersPanelProps) => {
 				<div className='mt-5 border-t border-stone-200 pt-5'>
 					<AddRoomMemberForm
 						isSubmitting={addMemberMutation.isPending}
+						resetSignal={addMemberResetSignal}
 						onSubmit={handleAddMember}
 					/>
 					{addMemberMutation.isError && (

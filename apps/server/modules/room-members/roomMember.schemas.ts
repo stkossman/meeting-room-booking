@@ -10,7 +10,7 @@ export const roomMemberByIdParamsSchema = roomMemberParamsSchema.extend({
 })
 
 export const addRoomMemberSchema = z.object({
-	email: z.email().trim().max(255),
+	email: z.string().trim().email().max(255),
 	role: z.enum([RoomRole.ADMIN, RoomRole.USER]),
 })
 

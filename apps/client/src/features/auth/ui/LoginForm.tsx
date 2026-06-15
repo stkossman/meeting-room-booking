@@ -35,6 +35,7 @@ export const LoginForm = () => {
 			<Input
 				label='Email'
 				type='email'
+				maxLength={255}
 				placeholder='you@team.com'
 				error={errors.email?.message}
 				{...register('email')}
@@ -42,6 +43,7 @@ export const LoginForm = () => {
 			<Input
 				label='Password'
 				type='password'
+				maxLength={255}
 				placeholder='Enter your password'
 				error={errors.password?.message}
 				{...register('password')}
