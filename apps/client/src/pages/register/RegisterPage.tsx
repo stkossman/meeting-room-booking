@@ -1,6 +1,5 @@
+import { RegisterForm } from '@/features/auth/ui/RegisterForm'
 import { Link } from 'react-router-dom'
-import { Button } from '@/shared/ui/Button'
-import { Input } from '@/shared/ui/Input'
 
 export const RegisterPage = () => {
 	return (
@@ -10,17 +9,7 @@ export const RegisterPage = () => {
 				<h1 className='mt-2 text-2xl font-semibold text-stone-950'>
 					Create account
 				</h1>
-				<div className='mt-6 grid gap-4'>
-					<Input label='Name' name='name' placeholder='Alex Morgan' />
-					<Input label='Email' name='email' type='email' placeholder='you@team.com' />
-					<Input
-						label='Password'
-						name='password'
-						type='password'
-						placeholder='At least 6 characters'
-					/>
-					<Button className='w-full'>Create account</Button>
-				</div>
+				<RegisterForm />
 				<p className='mt-5 text-sm text-stone-600'>
 					Already have an account?{' '}
 					<Link className='font-medium text-stone-950 underline' to='/login'>
