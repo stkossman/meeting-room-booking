@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { authRouter } from '../modules/auth/auth.routes'
+import { bookingRouter, roomBookingRouter } from '../modules/bookings/booking.routes'
 import { roomMemberRouter } from '../modules/room-members/roomMember.routes'
 import { roomRouter } from '../modules/rooms/room.routes'
 
@@ -10,5 +11,7 @@ apiRouter.get('/', (_req, res) => {
 })
 
 apiRouter.use('/auth', authRouter)
+apiRouter.use('/rooms/:roomId/bookings', roomBookingRouter)
 apiRouter.use('/rooms/:roomId/members', roomMemberRouter)
 apiRouter.use('/rooms', roomRouter)
+apiRouter.use('/bookings', bookingRouter)

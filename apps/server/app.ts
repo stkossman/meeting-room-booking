@@ -1,5 +1,6 @@
 import cors from 'cors'
 import express from 'express'
+import { AppError } from './common/errors/AppError'
 import { env } from './config/env'
 import { errorMiddleware } from './common/middlewares/error.middleware'
 import { apiRouter } from './routes/index'
@@ -19,5 +20,9 @@ app.get('/health', (_req, res) => {
 })
 
 app.use('/api', apiRouter)
+
+app.use((_req, _res, next) => {
+	next(new AppError('Route not found', 404))
+})
 
 app.use(errorMiddleware)
