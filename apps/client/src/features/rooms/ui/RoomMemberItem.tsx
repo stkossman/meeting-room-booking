@@ -20,10 +20,10 @@ export const RoomMemberItem = ({
 	onRoleChange,
 }: RoomMemberItemProps) => {
 	return (
-		<li className='flex flex-col gap-3 rounded-md border border-stone-200 bg-white/80 p-3 sm:flex-row sm:items-center sm:justify-between'>
-			<div className='min-w-0 flex-1'>
+		<li className='grid w-full min-w-0 gap-3 rounded-md border border-stone-200 bg-white/80 p-3 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center'>
+			<div className='min-w-0'>
 				<div className='flex flex-wrap items-center gap-2'>
-					<p className='truncate text-sm font-semibold text-stone-950'>
+					<p className='min-w-0 max-w-full break-words text-sm font-semibold leading-5 text-stone-950'>
 						{member.user.name}
 					</p>
 					{!canManage && (
@@ -32,13 +32,15 @@ export const RoomMemberItem = ({
 						</span>
 					)}
 				</div>
-				<p className='truncate text-sm text-stone-500'>{member.user.email}</p>
+				<p className='min-w-0 max-w-full break-words text-sm leading-5 text-stone-500'>
+					{member.user.email}
+				</p>
 			</div>
 			{canManage && (
-				<div className='flex items-center gap-2'>
+				<div className='grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto] gap-2 sm:flex sm:flex-wrap sm:items-center lg:w-auto lg:flex-nowrap lg:justify-end'>
 					<Select
 						aria-label={`Role for ${member.user.email}`}
-						className='h-9 w-28'
+						className='h-9 w-full min-w-0 sm:w-28 lg:w-28'
 						value={member.role}
 						disabled={isUpdating || isRemoving}
 						onChange={(event) =>
@@ -50,6 +52,7 @@ export const RoomMemberItem = ({
 					</Select>
 					<Button
 						variant='danger'
+						className='h-9 shrink-0 px-3'
 						disabled={isRemoving || isUpdating}
 						onClick={() => onRemove(member)}
 					>

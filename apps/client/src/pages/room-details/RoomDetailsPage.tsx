@@ -15,7 +15,7 @@ export const RoomDetailsPage = () => {
 	const roomQuery = useRoom(id)
 
 	return (
-		<main className='mx-auto w-full max-w-5xl px-6 py-10'>
+		<main className='mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-10'>
 			{roomQuery.isLoading && (
 				<div className='rounded-lg border border-stone-200 bg-white/70 p-8 text-sm text-stone-600'>
 					Loading room...
@@ -35,7 +35,7 @@ export const RoomDetailsPage = () => {
 			{roomQuery.data && (
 				<>
 					<RoomDetailsHeader room={roomQuery.data} onLogout={logout} />
-					<section className='mt-8 grid gap-6 md:grid-cols-[1fr_360px]'>
+					<section className='mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]'>
 						<BookingsPanel room={roomQuery.data} />
 						<RoomMembersPanel room={roomQuery.data} />
 					</section>
