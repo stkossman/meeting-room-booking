@@ -1,73 +1,69 @@
-# React + TypeScript + Vite
+# Meeting Room Booking Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React frontend for the Meeting Room Booking App. It provides authentication screens, protected routes, rooms management, room members management, and a simple bookings availability view.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React
+- TypeScript
+- Vite
+- TailwindCSS v4
+- TanStack Query
+- React Router
+- Axios
+- React Hook Form
+- Zod
 
-## React Compiler
+## Architecture
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+src
+├── app      # Providers, router, global styles
+├── pages    # Route-level pages
+├── features # Auth, rooms, room members, bookings UI/API/model code
+└── shared   # Shared API client, types, and UI components
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The structure follows a lightweight Feature-Sliced Design style without adding extra layers where they are not needed.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Environment
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Create `apps/client/.env` from `.env.example`.
+
+```env
+VITE_API_URL="http://localhost:4000/api"
 ```
+
+## Scripts
+
+```bash
+bun run dev     # Start Vite dev server
+bun run build   # Type-check and build production assets
+bun run lint    # Run ESLint
+bun run preview # Preview production build
+```
+
+## Run Client
+
+From `apps/client`:
+
+```bash
+bun run dev
+```
+
+Or from the repository root:
+
+```bash
+bun run dev:client
+```
+
+## Main UI Features
+
+- Login and register pages
+- Token-based protected routes
+- Rooms list with create, edit, delete, and open actions
+- Room details page
+- Room members panel with add, role update, and remove actions for admins
+- Booking form and daily bookings list
+- Join booking action for users
+- Validation, loading, error, and empty states
