@@ -6,9 +6,12 @@ import type {
 } from '@/shared/types/booking'
 
 export const bookingsApi = {
-	async getBookings(roomId: string): Promise<Booking[]> {
+	async getBookings(roomId: string, date?: string): Promise<Booking[]> {
 		const { data } = await httpClient.get<{ bookings: Booking[] }>(
 			`/rooms/${roomId}/bookings`,
+			{
+				params: date ? { date } : undefined,
+			},
 		)
 
 		return data.bookings

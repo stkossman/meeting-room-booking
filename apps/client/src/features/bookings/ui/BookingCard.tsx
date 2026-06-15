@@ -39,16 +39,19 @@ export const BookingCard = ({
 	return (
 		<article className='rounded-lg border border-stone-200 bg-white/85 p-5 shadow-sm'>
 			<div className='flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'>
-				<div className='min-w-0'>
-					<p className='text-base font-semibold text-stone-950'>
-						{formatTimeRange(booking)}
-					</p>
-					<p className='mt-2 text-sm leading-6 text-stone-600'>
-						{booking.description || 'No description.'}
-					</p>
-					<p className='mt-3 text-xs text-stone-500'>
-						Created by {booking.createdBy.name}
-					</p>
+				<div className='flex min-w-0 gap-4'>
+					<div className='mt-1 h-auto w-1 rounded-full bg-stone-300' />
+					<div className='min-w-0'>
+						<p className='text-base font-semibold text-stone-950'>
+							{formatTimeRange(booking)}
+						</p>
+						<p className='mt-2 text-sm leading-6 text-stone-600'>
+							{booking.description || 'No description.'}
+						</p>
+						<p className='mt-3 text-xs text-stone-500'>
+							Created by {booking.createdBy.name}
+						</p>
+					</div>
 				</div>
 				<span className='rounded-full border border-stone-200 bg-stone-50 px-2.5 py-1 text-xs font-medium text-stone-600'>
 					{booking.participants.length} joined

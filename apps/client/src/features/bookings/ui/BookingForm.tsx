@@ -29,16 +29,21 @@ type BookingFormFields = z.infer<typeof bookingFormSchema>
 
 type BookingFormProps = {
 	booking?: Booking
+	defaultDate?: string
 	isSubmitting?: boolean
+	resetSignal?: number
 	submitLabel: string
 	onCancel?: () => void
 	onSubmit: (values: BookingFormValues) => void
 }
 
-const getDefaultValues = (booking?: Booking): BookingFormFields => {
+const getDefaultValues = (
+	booking?: Booking,
+	defaultDate?: string,
+): BookingFormFields => {
 	if (!booking) {
 		return {
-			date: format(new Date(), 'yyyy-MM-dd'),
+			date: defaultDate ?? format(new Date(), 'yyyy-MM-dd'),
 			endTime: '',
 			startTime: '',
 			description: '',
@@ -64,9 +69,11 @@ const toBookingPayload = (values: BookingFormFields): BookingFormValues => ({
 
 export const BookingForm = ({
 	booking,
+	defaultDate,
 	isSubmitting = false,
 	onCancel,
 	onSubmit,
+	resetSignal,
 	submitLabel,
 }: BookingFormProps) => {
 	const {
@@ -76,12 +83,20 @@ export const BookingForm = ({
 		reset,
 	} = useForm<BookingFormFields>({
 		resolver: zodResolver(bookingFormSchema),
-		defaultValues: getDefaultValues(booking),
+		defaultValues: getDefaultValues(booking, defaultDate),
 	})
 
 	useEffect(() => {
-		reset(getDefaultValues(booking))
-	}, [booking, reset])
+		reset(getDefaultValues(booking, defaultDate))
+	}, [booking, defaultDate, reset])
+
+	useEffect(() => {
+		if (resetSignal === undefined || booking) {
+			return
+		}
+
+		reset(getDefaultValues(undefined, defaultDate))
+	}, [booking, defaultDate, reset, resetSignal])
 
 	return (
 		<form
@@ -114,6 +129,9 @@ export const BookingForm = ({
 					{...register('endTime')}
 				/>
 			</div>
+			<p className='text-xs leading-5 text-stone-500'>
+				Bookings are checked for conflicts before saving.
+			</p>
 			<div className='flex justify-end gap-3'>
 				{onCancel && (
 					<Button variant='ghost' onClick={onCancel}>

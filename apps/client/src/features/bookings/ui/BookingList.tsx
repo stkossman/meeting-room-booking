@@ -10,6 +10,7 @@ type BookingListProps = {
 	currentUserId?: string
 	joiningBookingId?: string
 	room: Room
+	selectedDate: string
 	onCancel: (booking: Booking) => void
 	onCreate: () => void
 	onEdit: (booking: Booking) => void
@@ -26,12 +27,13 @@ export const BookingList = ({
 	onEdit,
 	onJoin,
 	room,
+	selectedDate,
 }: BookingListProps) => {
 	if (bookings.length === 0) {
 		return (
 			<EmptyState
-				title='No bookings scheduled'
-				description='This room is open for planning sessions, interviews, and daily syncs.'
+				title='No bookings for this date'
+				description={`This room is open on ${selectedDate}.`}
 				action={
 					room.role === 'ADMIN' ? (
 						<Button variant='secondary' onClick={onCreate}>
