@@ -10,6 +10,11 @@ export type Room = {
 	role: RoomRole
 }
 
+export type RoomFormValues = {
+	name: string
+	description?: string
+}
+
 export type RoomMember = {
 	id: string
 	roomId: string
