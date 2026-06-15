@@ -28,3 +28,12 @@ export type RoomMember = {
 		email: string
 	}
 }
+
+export type AddRoomMemberValues = {
+	email: string
+	role: RoomRole
+}
+
+export type UpdateRoomMemberValues = {
+	role: RoomRole
+}

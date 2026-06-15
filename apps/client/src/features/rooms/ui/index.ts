@@ -1,3 +1,7 @@
+export { AddRoomMemberForm } from '@/features/rooms/ui/AddRoomMemberForm'
 export { getRoomFormValues, RoomCard } from '@/features/rooms/ui/RoomCard'
+export { RoomDetailsHeader } from '@/features/rooms/ui/RoomDetailsHeader'
 export { RoomForm } from '@/features/rooms/ui/RoomForm'
 export { RoomList } from '@/features/rooms/ui/RoomList'
+export { RoomMemberItem } from '@/features/rooms/ui/RoomMemberItem'
+export { RoomMembersPanel } from '@/features/rooms/ui/RoomMembersPanel'
