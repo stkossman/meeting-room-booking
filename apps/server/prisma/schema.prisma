@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum RoomRole {
+  ADMIN
+  USER
+}
+
+enum BookingStatus {
+  ACTIVE
+  CANCELLED
+}
+
+model User {
+  id                  String               @id @default(uuid()) @db.Uuid
+  name                String               @db.VarChar(255)
+  email               String               @unique @db.VarChar(255)
+  password            String               @db.VarChar(255)
+  createdAt           DateTime             @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt           DateTime             @updatedAt @map("updated_at") @db.Timestamptz()
+
+  createdRooms        Room[]               @relation("RoomCreator")
+  roomMembers         RoomMember[]
+  createdBookings     Booking[]            @relation("BookingCreator")
+  bookingParticipants BookingParticipant[]
+
+  @@map("users")
+}
+
+model Room {
+  id          String       @id @default(uuid()) @db.Uuid
+  name        String       @db.VarChar(120)
+  description String?      @db.VarChar(500)
+  createdById String       @map("created_by_id") @db.Uuid
+  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt   DateTime     @updatedAt @map("updated_at") @db.Timestamptz()
+
+  createdBy   User         @relation("RoomCreator", fields: [createdById], references: [id], onDelete: Cascade)
+  members     RoomMember[]
+  bookings    Booking[]
+
+  @@index([createdById])
+  @@map("rooms")
+}
+
+model RoomMember {
+  id        String   @id @default(uuid()) @db.Uuid
+  roomId    String   @map("room_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  role      RoomRole @default(USER)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([roomId, userId])
+  @@index([roomId])
+  @@index([userId])
+  @@map("room_members")
+}
+
+model Booking {
+  id          String               @id @default(uuid()) @db.Uuid
+  roomId      String               @map("room_id") @db.Uuid
+  createdById String               @map("created_by_id") @db.Uuid
+  startTime   DateTime             @map("start_time") @db.Timestamptz()
+  endTime     DateTime             @map("end_time") @db.Timestamptz()
+  description String?              @db.VarChar(500)
+  status      BookingStatus        @default(ACTIVE)
+  createdAt   DateTime             @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt   DateTime             @updatedAt @map("updated_at") @db.Timestamptz()
+
+  room        Room                 @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  createdBy   User                 @relation("BookingCreator", fields: [createdById], references: [id], onDelete: Cascade)
+  participants BookingParticipant[]
+
+  @@index([roomId])
+  @@index([createdById])
+  @@index([status])
+  @@index([startTime])
+  @@index([endTime])
+  @@index([roomId, status, startTime, endTime])
+  @@map("bookings")
+}
+
+model BookingParticipant {
+  id        String   @id @default(uuid()) @db.Uuid
+  bookingId String   @map("booking_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([bookingId, userId])
+  @@index([bookingId])
+  @@index([userId])
+  @@map("booking_participants")
+}
