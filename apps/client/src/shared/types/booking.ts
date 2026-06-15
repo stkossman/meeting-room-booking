@@ -28,3 +28,9 @@ export type Booking = {
 		email: string
 	}
 }
+
+export type BookingFormValues = {
+	description?: string
+	startTime: string
+	endTime: string
+}

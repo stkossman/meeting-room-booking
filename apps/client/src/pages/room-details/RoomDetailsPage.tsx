@@ -1,4 +1,5 @@
 import { useAuth } from '@/features/auth/model/useAuth'
+import { BookingsPanel } from '@/features/bookings/ui'
 import { useRoom } from '@/features/rooms/model'
 import {
 	RoomDetailsHeader,
@@ -35,10 +36,7 @@ export const RoomDetailsPage = () => {
 				<>
 					<RoomDetailsHeader room={roomQuery.data} onLogout={logout} />
 					<section className='mt-8 grid gap-6 md:grid-cols-[1fr_360px]'>
-						<EmptyState
-							title='No bookings scheduled'
-							description='Bookings will appear here when the booking UI is connected.'
-						/>
+						<BookingsPanel room={roomQuery.data} />
 						<RoomMembersPanel room={roomQuery.data} />
 					</section>
 				</>
