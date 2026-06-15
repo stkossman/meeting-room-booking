@@ -1,0 +1,14 @@
+:root {
+	--motion-fast: 140ms ease;
+	--motion-medium: 220ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 1ms !important;
+		scroll-behavior: auto !important;
+		transition-duration: 1ms !important;
+	}
+}

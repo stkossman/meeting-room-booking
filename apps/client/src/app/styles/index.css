@@ -1,1 +1,37 @@
 @import 'tailwindcss';
+@import './theme/colors.css';
+@import './theme/typography.css';
+@import './theme/animations.css';
+
+@layer base {
+	* {
+		box-sizing: border-box;
+	}
+
+	html {
+		min-height: 100%;
+		background: var(--color-surface);
+		color: var(--color-ink);
+	}
+
+	body {
+		min-height: 100vh;
+		margin: 0;
+		background:
+			linear-gradient(180deg, rgb(255 252 247 / 0.92), rgb(247 244 239 / 0.92)),
+			var(--color-surface);
+		font-family: var(--font-sans);
+		text-rendering: optimizeLegibility;
+	}
+
+	button,
+	input,
+	select,
+	textarea {
+		font: inherit;
+	}
+
+	::selection {
+		background: var(--color-selection);
+	}
+}

@@ -1,0 +1,11 @@
+:root {
+	--color-surface: #f7f4ef;
+	--color-surface-raised: #fffdf9;
+	--color-surface-muted: #ede8df;
+	--color-border: #ded7cc;
+	--color-border-strong: #c9c0b4;
+	--color-ink: #292524;
+	--color-ink-muted: #6b6259;
+	--color-focus: #78716c;
+	--color-selection: #eadfce;
+}
