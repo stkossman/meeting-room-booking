@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "bun --watch server.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "bun test modules/bookings/booking.service.test.ts modules/room-members/roomMember.service.test.ts"
   },
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",

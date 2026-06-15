@@ -1,4 +1,4 @@
-import { BookingStatus, RoomRole } from '@prisma/client'
+import { BookingStatus, Prisma, RoomRole } from '@prisma/client'
 import { AppError } from '../../common/errors/AppError'
 import {
 	bookingRepository,
@@ -121,15 +121,30 @@ export const bookingService = {
 		const startTime = parseDateTime(input.startTime)
 		const endTime = parseDateTime(input.endTime)
 
-		await ensureNoTimeConflict(roomId, startTime, endTime)
+		try {
+			const booking = await bookingRepository.createBookingIfNoConflict({
+				roomId,
+				createdById,
+				description: input.description?.trim(),
+				startTime,
+				endTime,
+			})
 
-		return bookingRepository.createBooking({
-			roomId,
-			createdById,
-			description: input.description?.trim(),
-			startTime,
-			endTime,
-		})
+			if (!booking) {
+				throw new AppError('Booking time conflicts with an existing booking', 409)
+			}
+
+			return booking
+		} catch (error) {
+			if (
+				error instanceof Prisma.PrismaClientKnownRequestError &&
+				error.code === 'P2034'
+			) {
+				throw new AppError('Booking time conflicts with an existing booking', 409)
+			}
+
+			throw error
+		}
 	},
 
 	async updateBooking(

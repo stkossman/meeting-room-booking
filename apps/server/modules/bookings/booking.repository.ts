@@ -70,6 +70,30 @@ export type BookingParticipantDetails = Prisma.BookingParticipantGetPayload<{
 	select: typeof participantSelect
 }>
 
+export type BookingConflictCandidate = {
+	id: string
+	status: BookingStatus
+	startTime: Date
+	endTime: Date
+}
+
+export const isOverlappingActiveBooking = (
+	existing: BookingConflictCandidate,
+	newStartTime: Date,
+	newEndTime: Date,
+	excludeBookingId?: string,
+): boolean => {
+	if (existing.status !== BookingStatus.ACTIVE) {
+		return false
+	}
+
+	if (excludeBookingId && existing.id === excludeBookingId) {
+		return false
+	}
+
+	return existing.startTime < newEndTime && existing.endTime > newStartTime
+}
+
 export const bookingRepository = {
 	findRoomById(roomId: string): Promise<{ id: string } | null> {
 		return prisma.room.findUnique({
@@ -177,6 +201,58 @@ export const bookingRepository = {
 
 			return createdBooking
 		})
+	},
+
+	createBookingIfNoConflict(input: {
+		roomId: string
+		createdById: string
+		description?: string
+		startTime: Date
+		endTime: Date
+	}): Promise<BookingDetails | null> {
+		return prisma.$transaction(
+			async (tx) => {
+				const conflictingBooking = await tx.booking.findFirst({
+					where: {
+						roomId: input.roomId,
+						status: BookingStatus.ACTIVE,
+						startTime: { lt: input.endTime },
+						endTime: { gt: input.startTime },
+					},
+					select: { id: true },
+				})
+
+				if (conflictingBooking) {
+					return null
+				}
+
+				const booking = await tx.booking.create({
+					data: {
+						roomId: input.roomId,
+						createdById: input.createdById,
+						description: input.description,
+						startTime: input.startTime,
+						endTime: input.endTime,
+					},
+					select: { id: true },
+				})
+
+				await tx.bookingParticipant.create({
+					data: {
+						bookingId: booking.id,
+						userId: input.createdById,
+					},
+				})
+
+				return tx.booking.findUniqueOrThrow({
+					where: { id: booking.id },
+					select: bookingSelect,
+				})
+			},
+			{
+				isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
+			},
+		)
 	},
 
 	updateBooking(

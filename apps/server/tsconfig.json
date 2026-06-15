@@ -7,7 +7,7 @@
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"outDir": "dist",
-		"types": ["node"]
+		"types": ["node", "bun"]
 	},
 	"include": ["**/*.ts"],
 	"exclude": ["dist", "node_modules"]
