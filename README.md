@@ -1,3 +1,7 @@
+<div align="center">
+  <img width="1910" height="993" alt="image" src="https://github.com/user-attachments/assets/ac37cecd-2449-44d1-8bda-543d1e5a6e04" />
+</div>
+
 # Meeting Room Booking App
 
 Fullstack web application for booking meeting rooms, managing room members, and preventing booking time conflicts.
